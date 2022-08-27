@@ -1,13 +1,11 @@
-import 'package:auto_route/annotations.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-import 'package:money_manager/router/router.gr.dart';
+import 'package:money_manager/models/transaction_type.enum.dart';
 import 'package:money_manager/widgets/home/stats/stats.dart';
 import 'package:money_manager/widgets/shared/transaction/transaction_list.dart';
 
 import '../../models/transaction.model.dart';
-import '../../config/theme.dart';
 import 'home_navigation_bar.dart';
 
 class Home extends StatefulWidget {
@@ -22,8 +20,8 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   double _totalAmount = 0;
   List<Transaction> _transactionList = [];
-  late Box totalAmountBox;
-  late Box transactionBox;
+  late Box _totalAmountBox;
+  late Box _transactionBox;
 
   @override
   void initState() {
@@ -32,13 +30,17 @@ class HomeState extends State<Home> {
   }
 
   void initData() async {
-    totalAmountBox = await Hive.openBox('totalSpend');
-    transactionBox = await Hive.openBox('transactions');
-    _totalAmount = totalAmountBox.get('value') ?? 0;
-    _transactionList = transactionBox.values
+    _totalAmountBox = await Hive.openBox('totalSpend');
+    _transactionBox = await Hive.openBox('transactions');
+    _totalAmount = _totalAmountBox.get('value') ?? 0;
+    _populateTransaction();
+    _transactionList = _transactionBox.values
         .map((e) => Transaction.fromJson(Map<String, dynamic>.from(e)))
         .toList();
     _transactionList.sort((a, b) => b.date.compareTo(a.date));
+    if (kDebugMode) {
+      print(_transactionList.toString());
+    }
   }
 
   @override
@@ -55,6 +57,29 @@ class HomeState extends State<Home> {
             ]));
       },
     );
+  }
+
+  void _populateTransaction() {
+    if (_transactionBox.values.isEmpty) {
+      Transaction t1 = Transaction(
+          title: 'Sushi',
+          amount: 18.50,
+          type: TransactionType.expense,
+          date: DateTime.now());
+      _transactionBox.put(t1.id, t1.toJson());
+      Transaction t2 = Transaction(
+          title: 'MacBook Pro',
+          amount: 3192.98,
+          type: TransactionType.expense,
+          date: DateTime.now());
+      _transactionBox.put(t2.id, t2.toJson());
+      Transaction t3 = Transaction(
+          title: 'Stipendio',
+          amount: 5234.23,
+          type: TransactionType.income,
+          date: DateTime.now());
+      _transactionBox.put(t3.id, t3.toJson());
+    }
   }
 
 // void onPress() {
