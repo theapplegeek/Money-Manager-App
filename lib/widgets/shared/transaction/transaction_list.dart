@@ -14,8 +14,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverFillRemaining(
-      child: ListView(
-          padding: const EdgeInsets.all(0), children: [...generateList()]),
+      child: Column(children: [...generateList()]),
     );
   }
 }

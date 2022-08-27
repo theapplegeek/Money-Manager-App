@@ -18,9 +18,9 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  double _totalAmount = 0;
+  double _balance = 0;
   List<Transaction> _transactionList = [];
-  late Box _totalAmountBox;
+  late Box _balanceBox;
   late Box _transactionBox;
 
   @override
@@ -30,9 +30,9 @@ class HomeState extends State<Home> {
   }
 
   void initData() async {
-    _totalAmountBox = await Hive.openBox('totalSpend');
+    _balanceBox = await Hive.openBox('balance');
     _transactionBox = await Hive.openBox('transactions');
-    _totalAmount = _totalAmountBox.get('value') ?? 0;
+    _balance = _balanceBox.get('total') ?? 0;
     _populateTransaction();
     _transactionList = _transactionBox.values
         .map((e) => Transaction.fromJson(Map<String, dynamic>.from(e)))
@@ -47,14 +47,12 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return CupertinoTabView(
       builder: (BuildContext context) {
-        return CupertinoPageScaffold(
-            child: CustomScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                slivers: [
-              MainNavigationBar(totalSpend: _totalAmount),
+        return CustomScrollView(
+            slivers: [
+              MainNavigationBar(balance: _balance),
               const Stats(),
               const TransactionList(),
-            ]));
+            ]);
       },
     );
   }

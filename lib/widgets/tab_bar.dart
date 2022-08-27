@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:money_manager/router/router.gr.dart';
 
 class TabBar extends StatelessWidget {
@@ -7,33 +7,26 @@ class TabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter.tabBar(
+    return AutoTabsScaffold(
         routes: const [
           HomeRoute(),
           TransactionSectionRoute(),
         ],
-        builder: (context, child, controller) {
-          final tabsRouter = AutoTabsRouter.of(context);
-          return CupertinoTabScaffold(
-              tabBar: CupertinoTabBar(
-                currentIndex: tabsRouter.activeIndex,
-                onTap: tabsRouter.setActiveIndex,
-                activeColor: CupertinoColors.activeBlue,
-                inactiveColor: CupertinoColors.white,
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.home),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.list_bullet),
-                    label: 'Transactions',
-                  ),
-                ],
-              ),
-              tabBuilder: (BuildContext context, int index) {
-                return child;
-              });
+        animationDuration: Duration.zero,
+        bottomNavigationBuilder: (_, tabsRouter) {
+          return BottomNavigationBar(
+              currentIndex: tabsRouter.activeIndex,
+              onTap: tabsRouter.setActiveIndex,
+              items: const [
+                BottomNavigationBarItem(
+                  label: 'Home',
+                  icon: Icon(Icons.home),
+                ),
+                BottomNavigationBarItem(
+                  label: 'Transactions',
+                  icon: Icon(Icons.list),
+                ),
+              ]);
         });
   }
 }
