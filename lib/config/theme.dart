@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyTheme {
   static ThemeData iosTheme = ThemeData(
     brightness: Brightness.dark,
     primaryColor: Colors.white,
-    scaffoldBackgroundColor: CupertinoColors.darkBackgroundGray,
+    scaffoldBackgroundColor: const Color(0xFF171717),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.black,
         elevation: 10,

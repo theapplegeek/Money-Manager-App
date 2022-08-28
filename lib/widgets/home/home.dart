@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:money_manager/models/transaction_type.enum.dart';
@@ -45,16 +45,11 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabView(
-      builder: (BuildContext context) {
-        return CustomScrollView(
-            slivers: [
-              MainNavigationBar(balance: _balance),
-              const Stats(),
-              const TransactionList(),
-            ]);
-      },
-    );
+    return CustomScrollView(slivers: [
+      MainNavigationBar(balance: _balance),
+      const Stats(),
+      const TransactionList(),
+    ]);
   }
 
   void _populateTransaction() {

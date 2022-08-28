@@ -5,12 +5,6 @@ class TransactionsNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return const CupertinoSliverNavigationBar(
-    //     backgroundColor: CupertinoColors.black,
-    //     largeTitle: Text('All Transactions'),
-    //     leading: Icon(CupertinoIcons.money_euro_circle,
-    //         color: CupertinoColors.white),
-    //     middle: Text('Money Manager'));
     return const SliverAppBar(
       pinned: true,
       snap: false,
